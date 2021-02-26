@@ -99,10 +99,12 @@ recognition.maxAlternatives = 1;
 
 //////Функции//////
 function startRecord() {
-  recognition.start();
-  console.log("Ready to receive a command.");
-  micBtn.disabled = true;
-  document.querySelector('.loader-container').style.visibility="visible";
+  if(!speechSynthesis.speaking){
+    recognition.start();
+    console.log("Ready to receive a command.");
+    micBtn.disabled = true;
+    document.querySelector('.loader-container').style.visibility="visible";
+  }
 }
 function stopRecord() {
   recognition.stop();
@@ -138,6 +140,7 @@ recognition.onresult = function (event) {
   const last = event.results.length - 1;
   userPhrase = event.results[last][0].transcript; // результат распознавания без проверки в базе знаний
   startSpeak(knowledgeDBsearch(userPhrase))
+  console.log(userPhrase);
   // openSocket(userPhrase);
   //console.log("Confidence: " + event.results[0][0].confidence);
 };
@@ -154,21 +157,31 @@ recognition.onresult = function (event) {
 // Программные фичи//////////////////////
 function knowledgeDBsearch(speechResult) {
   switch (speechResult.toLowerCase()){
-    case'как дела': 
-      return 'пока не родила... хаха'
-    case'как тебя зовут': 
-      return 'меня.... у меня нет имени'
     case'привет': 
       return 'Привет'
+    case'как дела': 
+      return 'пока не родила... ха ха'
+    case'как тебя зовут': 
+      return 'у меня нет имени'
+    case'расскажи что-нибудь интересное': 
+      return dailyTipsDB[Math.floor(Math.random() * Math.floor(dailyTipsDB.length))]
     default :
     return 'я не знаю что это значит'
   }
 }
 
 //начало работы с программой////
-//setTimeout(()=>startSpeak(),300) 
+coverBtn.onclick = e =>{
+  document.querySelector(".cover").classList.toggle("cover-off");
+  document.querySelector(".main-interface").classList.toggle("main-interface-on");
+  // startSpeak("Привет. Я упрощённая форма искуственного интеллекта версии один точка 0.");
+  // startSpeak("Мое существование направлено на обучение и стать незаменимым помощником и приятным собеседником.")
+  // startSpeak("Меня наделили минимальным набором базовых навыков и реплик.")
+  // startSpeak("В дальнейшем, вы должны принять непосредственное участие в продвижении моего развития")
+  e.target.remove()
+}
 ////////////////////////////////
-// let dailyTipsDB = ['Знаете ли вы, что с 12-летнего возраста Жанна д’Арк слышала голоса и могла наблюдать странные и необычные видения...','Знаете ли вы, что на изобретение лампы накаливания с угольной нитью у Томаса Эдисона ушло более пяти лет...']
+let dailyTipsDB = ['Знаете ли вы, что с 12-летнего возраста Жанна д’Арк слышала голоса и могла наблюдать странные и необычные видения...','Знаете ли вы, что на изобретение лампы накаливания с угольной нитью у Томаса Эдисона ушло более пяти лет...']
 
 // let dayTips = setInterval(DailyTips,10000)
 // activDayTips.onchange = ()=>{
@@ -239,7 +252,7 @@ function knowledgeDBsearch(speechResult) {
 
  
 
-  
+
     
      
   

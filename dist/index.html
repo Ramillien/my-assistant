@@ -2,61 +2,100 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <!-- <link
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    /> -->
-    <link rel="stylesheet" href="/styles.b61e60ae.css">
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/styles.css">
 
     <title>Мой ассистент</title>
-  <script src="/styles.b61e60ae.js"></script></head>
+  </head>
   <body>
     
     <!-- тело программы -->
-    <div class="d-flex flex-column align-content-between">
-      <nav class="navbar navbar-light bg-light">
+    <div class="cover">
+      <p class="text-center">Тут должен быть какой нибудь дисклеймер или Лицензионное соглашение.</p>
+      <button id="coverBtn" class="btn btn-primary">Начать</button>
+    </div>
+    <div class="main-interface d-flex flex-column h-100 w-100">
+      <nav class="navbar navbar-light">
         <div class="container-fluid">
           <h1 class="display-4">Мой ассистент</h1>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"></path>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
           </svg>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <hr class="col-12">
+            <hr class="col-12" />
             <div class="col-10 offset-1">
               <h1 class="mb3 display-6">Настройки</h1>
-              <hr>
+              <hr />
               <div class="form-group">
                 <label for="voices">Голос</label>
                 <select class="form-control" id="voicesSelector"></select>
               </div>
-              <hr>
+              <hr />
               <div class="row">
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="rate">Скорость (<span class="rate-value">1</span>)</label>
-                    <br>
-                    <input type="range" class="form-control-range col-10" id="rate" min="0.5" max="3" value="1" step="0.1">
+                    <label for="rate"
+                      >Скорость (<span class="rate-value">1</span>)</label
+                    >
+                    <br />
+                    <input
+                      type="range"
+                      class="form-control-range col-10"
+                      id="rate"
+                      min="0.5"
+                      max="3"
+                      value="1"
+                      step="0.1"
+                    />
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="pitch">Питч (<span class="pitch-value">1</span>)</label>
-                    <br>
-                    <input type="range" class="form-control-range col-10" id="pitch" min="0" max="2" value="1" step="0.1">
+                    <label for="pitch"
+                      >Питч (<span class="pitch-value">1</span>)</label
+                    >
+                    <br />
+                    <input
+                      type="range"
+                      class="form-control-range col-10"
+                      id="pitch"
+                      min="0"
+                      max="2"
+                      value="1"
+                      step="0.1"
+                    />
                   </div>
                 </div>
               </div>
-              <hr>
+              <hr />
             </div>
             <form class="d-flex">
-              <input class="form-control me-2" id="text" type="text" placeholder="Введите текст..." aria-label="Search">
+              <input
+                class="form-control me-2"
+                id="text"
+                type="text"
+                placeholder="Введите текст..."
+                aria-label="Search"
+              />
               <button class="btn btn-success" id="playBtn" type="submit">
                 Сказать
               </button>
@@ -64,22 +103,27 @@
           </div>
         </div>
       </nav>
-      <div class="content d-flex justify-content-center align-items-center">
-        
-          <div class="loader-container">
-            <div class="loader-2"></div>
-          </div>
-      
+      <div class="content d-flex justify-content-center align-items-center flex-grow-1">
+        <ul><p class="fw-bold">Доступные команды:</p> 
+          <li>Привет</li>
+          <li>Как дела?</li>
+          <li>Как тебя зовут?</li>
+          <li>Расскажи что нибудь интересное</li>
+        </ul>
+        <div class="loader-container">
+          <div class="loader-2"></div>
+        </div>
       </div>
 
-      <div class="footer">
+      <div class="footer d-flex justify-content-center align-items-center">
         <div class="d-flex justify-content-center">
           <!-- <label ><input type="checkbox" id="activDayTips">Daily Tips</label> -->
           <!-- <button class="btn btn-light" id="microStopBtn">Микро стоп</button> -->
-          <button class="btn btn-success btn-lg" id="micBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"></path>
-              <path fill-rule="evenodd" d="M10 8V3a2 2 0 1 0-4 0v5a2 2 0 1 0 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"></path>
+
+          <button class="btn btn-primary btn-lg rounded-circle" id="micBtn" >
+            <svg  xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/>
+              <path fill-rule="evenodd" d="M10 8V3a2 2 0 1 0-4 0v5a2 2 0 1 0 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/>
             </svg>
           </button>
         </div>
@@ -87,11 +131,15 @@
     </div>
   
   
-    <script src="/script.d573be0b.js"></script>
+    <script src="js/script.js"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
     
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
