@@ -12,7 +12,7 @@ let doYouKnowDB = [
   "Знаете ли вы, что на изобретение лампы накаливания с угольной нитью у Томаса Эдисона ушло более пяти лет...",
 ];
 let isPlayingGame = false;
-
+let isSetName = false;
 // Синтез речи///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Генерация голосов
@@ -124,11 +124,17 @@ function commandsList(speechResult) {
     }
   }
 
+  // if(speechResult == 'Привет'|| speechResult == `Привет ${aiName}`||isSetName){
+  //   return !userName ? setUserName(speechResult) : startSpeak(`Привет ${userName}`);
+  // }
+  if(isSetName){
+    return setUserName(speechResult)
+  }
+
   switch (speechResult) {
     case `Привет`:
-      return userName == "" ? setUserName() : startSpeak(`Привет ${userName}`);
     case `Привет ${aiName}`:
-      return userName == "" ? setUserName() : startSpeak(`Привет ${userName}`);
+      return !userName ? setUserName(speechResult) : startSpeak(`Привет ${userName}`);
     case `${aiName}`:
       return startSpeak("Я здесь");
     case "Как дела":
@@ -140,7 +146,7 @@ function commandsList(speechResult) {
         doYouKnowDB[Math.floor(Math.random() * Math.floor(doYouKnowDB.length))]
       );
     case "хочу сменить своё имя":
-      return setUserName();
+      return setUserName(speechResult);
     case "хочу сменить твоё имя":
       return setAiName();
     default:
@@ -251,17 +257,25 @@ function greeting() {
   startSpeak("Надеюсь на наше плодотворное сотрудничество!");
 }
 
-function setUserName() {
-  if (!userName) {
-    startSpeak("Для начала давайте познакомимся. Как мне к вам обращаться?");
-  } else {
-    startSpeak("Окей, введите новое имя");
+function setUserName(newName) {
+  if(!isSetName){
+      if (!userName) {
+      startSpeak("Для начала давайте познакомимся. Как мне к вам обращаться?");
+    } else {
+      startSpeak("Окей, введите новое имя");
+    }
   }
-  do {
-    userName = prompt("Введите свое имя или ник");
-  } while (!userName);
-  localStorage.setItem("userName", userName);
-  startSpeak(`Приятно познакомиться ${userName}`);
+  
+
+  if(isSetName){
+    userName = newName;
+    isSetName = false;
+    localStorage.setItem("userName", userName);
+    return startSpeak(`Приятно познакомиться ${userName}`);
+  }
+  isSetName = true;
+  
+  
 }
 
 function setAiName() {
