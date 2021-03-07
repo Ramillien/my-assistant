@@ -12,7 +12,8 @@ let doYouKnowDB = [
   "Знаете ли вы, что на изобретение лампы накаливания с угольной нитью у Томаса Эдисона ушло более пяти лет...",
 ];
 let isPlayingGame = false;
-let isSetName = false;
+let isSetUserName = false;
+let isSetAiName = false;
 // Синтез речи///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Генерация голосов
@@ -128,10 +129,12 @@ function commandsList(speechResult) {
   }
 
   //редирект на функцию смены userName
-  if(isSetName){
+  if(isSetUserName){
     return SetUserName(speechResult)
   }
-  
+  if(isSetAiName){
+    return SetAiName(speechResult)
+  }
 
   switch (speechResult) {
     case `Привет`:
@@ -142,7 +145,7 @@ function commandsList(speechResult) {
     case "Как дела":
       return StartSpeak("пока не родила... ха ха");
     case "Как тебя зовут":
-      return aiName == "" ? SetAiName() : StartSpeak(`Мое имя ${aiName}`);
+      return aiName == "" ? SetAiName(speechResult) : StartSpeak(`Мое имя ${aiName}`);
     case "Расскажи что-нибудь интересное":
       return StartSpeak(
         doYouKnowDB[Math.floor(Math.random() * Math.floor(doYouKnowDB.length))]
@@ -254,7 +257,7 @@ function greeting() {
 }
 
 function SetUserName(newName) {
-  if(!isSetName){
+  if(!isSetUserName){
       if (!userName) {
       StartSpeak("Для начала давайте познакомимся. Как мне к вам обращаться?");
     } else {
@@ -262,30 +265,34 @@ function SetUserName(newName) {
     }
   }
   
-
-  if(isSetName){
+  if(isSetUserName){
     userName = newName;
-    isSetName = false;
+    isSetUserName = false;
     localStorage.setItem("userName", userName);
     return StartSpeak(`Приятно познакомиться ${userName}`);
   }
-  isSetName = true;
+  isSetUserName = true;
   
   
 }
 
-function SetAiName() {
-  if (!aiName) {
-    StartSpeak("Я не знаю. Может ты дашь мне имя?");
-  } else {
-    StartSpeak("Окей, введите новое имя");
+function SetAiName(newName) {
+  if(!isSetAiName){
+    if (!aiName) {
+      StartSpeak("Я не знаю. Может ты дашь мне имя? Произнеси и я запомню его");
+    } else {
+      StartSpeak("Окей, введите новое имя");
+    }
   }
-  do {
-    aiName = prompt("Введите имя ИИ");
-  } while (!aiName);
-  localStorage.setItem("aiName", aiName);
-  StartSpeak(`${aiName}, окей!`);
-  StartSpeak("Теперь ты можешь обращаться ко мне по имени");
+  
+  if(isSetAiName){
+    aiName = newName
+    isSetAiName = false;
+    localStorage.setItem("aiName", aiName);
+    StartSpeak(`${aiName}, окей!`);
+    return StartSpeak("Теперь ты можешь обращаться ко мне по имени");
+  }
+  isSetAiName = true;
 }
 
 ////////////////////////////////
