@@ -20,7 +20,7 @@
     
     <!-- тело программы -->
     <div class="cover">
-      <p class="text-center">Тут должен быть какой нибудь дисклеймер или Лицензионное соглашение.</p>
+      <p class="text-center">Приложение использует предоставленные браузером инструменты Browser API Speech Synthesis & Speech Recognition.</p>
       <button id="coverBtn" class="btn btn-primary">Начать</button>
     </div>
     <div class="main-interface d-flex flex-column h-100 w-100">
@@ -88,7 +88,7 @@
               </div>
               <hr />
             </div>
-            <form class="d-flex">
+            <div class="d-flex">
               <input
                 class="form-control me-2"
                 id="text"
@@ -96,19 +96,23 @@
                 placeholder="Введите текст..."
                 aria-label="Search"
               />
-              <button class="btn btn-success" id="playBtn" type="submit">
+              <button class="btn btn-success" id="playBtn">
                 Сказать
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </nav>
       <div class="content d-flex flex-column justify-content-center align-items-center flex-grow-1">
+        
         <ul><p class="fw-bold">Доступные команды:</p> 
           <li>Привет</li>
           <li>Как дела?</li>
           <li>Как тебя зовут?</li>
           <li>Расскажи что нибудь интересное</li>
+          <li>хочу сменить своё имя</li>
+          <li>хочу сменить твоё имя</li>
+          <li>Давай поиграем/Стоп игра</li>
         </ul>
         <div class="loader-container">
           <div class="loader-2"></div>
