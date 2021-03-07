@@ -31,8 +31,9 @@ const generateVoices = () => {
 //generateVoices()
 
 //Воспроизведение
-function startSpeak(aiAnswer) {
+function StartSpeak(aiAnswer) {
   if (!aiAnswer == "") {
+    micBtn.disabled = true;
     console.log("speechSynthesis.speaking");
     playBtn.disabled = true;
     document.querySelector(".loader-container").style.visibility = "hidden";
@@ -40,10 +41,12 @@ function startSpeak(aiAnswer) {
     ssUtterance.onend = (event) => {
       console.warn("SpeechSynthesis end");
       playBtn.disabled = false;
+      micBtn.disabled = false;
     };
     ssUtterance.onerror = (event) => {
       console.warn("SpeechSynthesis error");
       playBtn.disabled = false;
+      micBtn.disabled = false;
     };
     ssUtterance.voice = voices[voicesSelector.value];
     ssUtterance.pitch = pitch.value;
@@ -83,13 +86,13 @@ function startRecord() {
     recognition.onspeechend = stopRecord;
     recognition.onnomatch = function (event) {
       // alert("I didn't recognise that phrase.");
-      startSpeak("Не могу разобрать слова");
+      StartSpeak("Не могу разобрать слова");
       micBtn.disabled = false;
       document.querySelector(".loader-container").style.visibility = "hidden";
     };
     recognition.onerror = function (event) {
       console.log(`Error occurred in recognition: ${event.error}`);
-      startSpeak("Я ничего не услышала");
+      StartSpeak("Я ничего не услышала");
       micBtn.disabled = false;
       document.querySelector(".loader-container").style.visibility = "hidden";
     };
@@ -119,38 +122,37 @@ function commandsList(speechResult) {
     if (isPlayingGame) {
       return PlayCountriesGame(speechResult);
     } else {
-      startSpeak("Хорошо. Проверим твои познания в географии.");
+      StartSpeak("Хорошо. Проверим твои познания в географии.");
       return PlayCountriesGame(speechResult);
     }
   }
 
-  // if(speechResult == 'Привет'|| speechResult == `Привет ${aiName}`||isSetName){
-  //   return !userName ? setUserName(speechResult) : startSpeak(`Привет ${userName}`);
-  // }
+  //редирект на функцию смены userName
   if(isSetName){
-    return setUserName(speechResult)
+    return SetUserName(speechResult)
   }
+  
 
   switch (speechResult) {
     case `Привет`:
     case `Привет ${aiName}`:
-      return !userName ? setUserName(speechResult) : startSpeak(`Привет ${userName}`);
+      return !userName ? SetUserName(speechResult) : StartSpeak(`Привет ${userName}`);
     case `${aiName}`:
-      return startSpeak("Я здесь");
+      return StartSpeak("Я здесь");
     case "Как дела":
-      return startSpeak("пока не родила... ха ха");
+      return StartSpeak("пока не родила... ха ха");
     case "Как тебя зовут":
-      return aiName == "" ? setAiName() : startSpeak(`Мое имя ${aiName}`);
+      return aiName == "" ? SetAiName() : StartSpeak(`Мое имя ${aiName}`);
     case "Расскажи что-нибудь интересное":
-      return startSpeak(
+      return StartSpeak(
         doYouKnowDB[Math.floor(Math.random() * Math.floor(doYouKnowDB.length))]
       );
     case "хочу сменить своё имя":
-      return setUserName(speechResult);
+      return SetUserName(speechResult);
     case "хочу сменить твоё имя":
-      return setAiName();
+      return SetAiName();
     default:
-      return startSpeak("я не знаю что это значит");
+      return StartSpeak("я не знаю что это значит");
   }
 }
 
@@ -179,12 +181,12 @@ function PlayCountriesGame(countryName) {
   if (countryName == "стоп-игра") {
     isPlayingGame = false;
     console.log(isPlayingGame);
-    return startSpeak("Было приятно с тобой поиграть");
+    return StartSpeak("Было приятно с тобой поиграть");
   }
 
   if (countryName == "Давай поиграем") {
-    startSpeak('Когда надоест играть, скажи стоп-игра или сдаюсь.')
-    return startSpeak("Начинаем. Назови любую страну");
+    StartSpeak('Когда надоест играть, скажи стоп-игра или сдаюсь.')
+    return StartSpeak("Начинаем. Назови любую страну");
   }
 
 
@@ -199,13 +201,13 @@ function PlayCountriesGame(countryName) {
       ReloadCountries(countryName);
       AiGameAnswer(countryName)
     }else{
-      startSpeak(`Внимательнее, тебе на букву ${firstChar}`)
+      StartSpeak(`Внимательнее, тебе на букву ${firstChar}`)
     }
     
   }else if(isCountryRepeat){
-    return startSpeak('Такая страна уже была');
+    return StartSpeak('Такая страна уже была');
   }else{
-    return startSpeak('Нет такой страны');
+    return StartSpeak('Нет такой страны');
   }
 
 }
@@ -218,12 +220,12 @@ function AiGameAnswer(result){
   if(aiCountryList.length){
     aiAnswer = aiCountryList[Math.floor(Math.random() * Math.floor(aiCountryList.length))];
     ReloadCountries(aiAnswer);
-    startSpeak(`${aiAnswer}, тебе на ${aiAnswer[aiAnswer.length - 1]}`);
+    StartSpeak(`${aiAnswer}, тебе на ${aiAnswer[aiAnswer.length - 1]}`);
     firstChar = aiAnswer[aiAnswer.length - 1].toUpperCase();
     console.log(aiAnswer);
   }else{
     console.log(aiCountryList + 'false');
-    startSpeak('Я проиграла. Поздравляю, человек!');
+    StartSpeak('Я проиграла. Поздравляю, человек!');
     ////обнуление по завершению игры////
     firstChar="";
     soundedCountries=[];
@@ -244,25 +246,19 @@ function ReloadCountries(country){
 //начало работы с программой////
 
 function greeting() {
-  startSpeak(
-    "Привет. Я упрощённая форма искуственного интеллекта версии один точка 0."
-  );
-  startSpeak(
-    "Мое существование направлено на обучение и стать незаменимым помощником и приятным собеседником."
-  );
-  startSpeak("Меня наделили минимальным набором базовых навыков и реплик.");
-  startSpeak(
-    "В дальнейшем, вы должны принять непосредственное участие в продвижении моего развития"
-  );
-  startSpeak("Надеюсь на наше плодотворное сотрудничество!");
+  StartSpeak("Привет. Я упрощённая форма искуственного интеллекта версии один точка 0.");
+  StartSpeak("Мое существование направлено на обучение и стать незаменимым помощником и приятным собеседником.");
+  StartSpeak("Меня наделили минимальным набором базовых навыков и реплик.");
+  StartSpeak("В дальнейшем, вы должны принять непосредственное участие в продвижении моего развития");
+  StartSpeak("Надеюсь на наше плодотворное сотрудничество!");
 }
 
-function setUserName(newName) {
+function SetUserName(newName) {
   if(!isSetName){
       if (!userName) {
-      startSpeak("Для начала давайте познакомимся. Как мне к вам обращаться?");
+      StartSpeak("Для начала давайте познакомимся. Как мне к вам обращаться?");
     } else {
-      startSpeak("Окей, введите новое имя");
+      StartSpeak("Окей, продиктуй новое имя и я его запомню");
     }
   }
   
@@ -271,40 +267,40 @@ function setUserName(newName) {
     userName = newName;
     isSetName = false;
     localStorage.setItem("userName", userName);
-    return startSpeak(`Приятно познакомиться ${userName}`);
+    return StartSpeak(`Приятно познакомиться ${userName}`);
   }
   isSetName = true;
   
   
 }
 
-function setAiName() {
+function SetAiName() {
   if (!aiName) {
-    startSpeak("Я не знаю. Может ты дашь мне имя?");
+    StartSpeak("Я не знаю. Может ты дашь мне имя?");
   } else {
-    startSpeak("Окей, введите новое имя");
+    StartSpeak("Окей, введите новое имя");
   }
   do {
     aiName = prompt("Введите имя ИИ");
   } while (!aiName);
   localStorage.setItem("aiName", aiName);
-  startSpeak(`${aiName}, окей!`);
-  startSpeak("Теперь ты можешь обращаться ко мне по имени");
+  StartSpeak(`${aiName}, окей!`);
+  StartSpeak("Теперь ты можешь обращаться ко мне по имени");
 }
 
 ////////////////////////////////
 
 //DOM elements addEventListeners
-playBtn.onclick = () => startSpeak(text.value);
+playBtn.onclick = () => StartSpeak(text.value);
 micBtn.onclick = startRecord;
-voicesSelector.onchange = () => startSpeak(text.value);
+voicesSelector.onchange = () => StartSpeak(text.value);
 rate.onchange = () =>
   (document.querySelector(".rate-value").textContent = rate.value);
 pitch.onchange = () =>
   (document.querySelector(".pitch-value").textContent = pitch.value);
 speechSynthesis.onvoiceschanged = generateVoices;
 coverBtn.onclick = (e) => {
-  userName == "" ? greeting() : startSpeak(`С возвращением, ${userName}`);
+  userName == "" ? greeting() : StartSpeak(`С возвращением, ${userName}`);
   document.querySelector(".cover").classList.toggle("cover-off");
   document.querySelector(".main-interface").classList.toggle("main-interface-on");
   e.target.remove();
