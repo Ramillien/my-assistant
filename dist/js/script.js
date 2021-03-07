@@ -73,7 +73,7 @@ recognition.lang = LANG;
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 
-//recognition.continuous = true; // полезная фича не удалять
+// recognition.continuous = true;   // TODO найти применение этой фиче
 
 //////Функции//////
 function startRecord() {
@@ -115,7 +115,7 @@ function stopRecord() {
   micBtn.disabled = false;
 }
 
-// Программные фичи//////////////////////
+// Программные фичи///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function commandsList(speechResult) {
   // Вход и выход из игры
@@ -132,6 +132,7 @@ function commandsList(speechResult) {
   if(isSetUserName){
     return SetUserName(speechResult)
   }
+  //редирект на функцию смены aiName
   if(isSetAiName){
     return SetAiName(speechResult)
   }
@@ -159,7 +160,7 @@ function commandsList(speechResult) {
   }
 }
 
-/////Игра////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////Игра/////////////////////////////////////////////////////////////
 let firstChar="";
 let soundedCountries=[];
 let countries = ["Австралия","Австрия","Азербайджан","Албания","Алжир","Ангола","Андорра","Аргентина","Армения","Афганистан","Бангладеш","Барбадос",
@@ -182,6 +183,9 @@ let countries = ["Австралия","Австрия","Азербайджан",
 function PlayCountriesGame(countryName) {
   isPlayingGame = true;
   if (countryName == "стоп-игра") {
+    firstChar="";
+    countries=countries.concat(soundedCountries)
+    soundedCountries=[];
     isPlayingGame = false;
     console.log(isPlayingGame);
     return StartSpeak("Было приятно с тобой поиграть");
@@ -228,9 +232,10 @@ function AiGameAnswer(result){
     console.log(aiAnswer);
   }else{
     console.log(aiCountryList + 'false');
-    StartSpeak('Я проиграла. Поздравляю, человек!');
+    StartSpeak('Я проиграла. Поздравляю человек! Было приятно с тобой поиграть');
     ////обнуление по завершению игры////
     firstChar="";
+    countries=countries.concat(soundedCountries)
     soundedCountries=[];
     isPlayingGame = false;
   }
