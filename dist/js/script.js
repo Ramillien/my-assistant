@@ -81,9 +81,15 @@ function generateVoices() {
     ssUtterance.rate = rate.value;
 
     ssUtterance.onend =  () => {
-      console.warn("SpeechSynthesis end");
-      playBtn.disabled = false;
-      micBtn.disabled = false; 
+      if(speechSynthesis.speaking){
+        micBtn.disabled = true;
+        console.log("speechSynthesis.speaking");
+        playBtn.disabled = true;
+      }else{
+        console.warn("SpeechSynthesis end");
+        playBtn.disabled = false;
+        micBtn.disabled = false;
+      }
     }
     
     ssUtterance.onerror = (event) => {
