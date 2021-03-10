@@ -58,46 +58,48 @@ let countries = ["Австралия","Австрия","Азербайджан",
 // Синтез речи///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Генерация голосов
-const generateVoices = () => {
+function generateVoices() {
   voices = speechSynthesis.getVoices();
-  const voicesList = voices
-    .map(
-      (voice, index) =>
-        voice.name === voiceName &&
-        `<option value=${index}>${voice.name} (${voice.lang})</option>`
-    )
-    .join("");
+  const voicesList = voices.map((voice, index) =>
+   voice.name === voiceName && `<option value=${index}>${voice.name} (${voice.lang})</option>`).join("");
   voicesSelector.innerHTML = voicesList;
   console.log("Voices have been generated");
 };
-//generateVoices()
+// generateVoices()
 
 //Воспроизведение
-function StartSpeak(aiAnswer) {
-  if (!aiAnswer == "") {
+  function StartSpeak(aiAnswer) {
+  if (aiAnswer) {
     micBtn.disabled = true;
     console.log("speechSynthesis.speaking");
     playBtn.disabled = true;
     document.querySelector(".loader-container").style.visibility = "hidden";
+
     const ssUtterance = new SpeechSynthesisUtterance(aiAnswer);
-    ssUtterance.onend = (event) => {
+    ssUtterance.voice = voices[voicesSelector.value];
+    ssUtterance.pitch = pitch.value;
+    ssUtterance.rate = rate.value;
+
+    ssUtterance.onend =  () => {
       console.warn("SpeechSynthesis end");
       playBtn.disabled = false;
-      micBtn.disabled = false;
-    };
+      micBtn.disabled = false; 
+    }
+    
     ssUtterance.onerror = (event) => {
       console.warn("SpeechSynthesis error");
       playBtn.disabled = false;
       micBtn.disabled = false;
     };
-    ssUtterance.voice = voices[voicesSelector.value];
-    ssUtterance.pitch = pitch.value;
-    ssUtterance.rate = rate.value;
+    
     speechSynthesis.speak(ssUtterance);
+    
   } else {
     console.log("aiAnswer is empty");
   }
 }
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
